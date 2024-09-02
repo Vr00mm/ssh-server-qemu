@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -17,13 +18,13 @@ func (s *SSHServer) authenticateUser(conn ssh.ConnMetadata, password []byte) (*s
 	})
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to contact authentication server")
-		return nil, err
+		return nil, fmt.Errorf("failed to contact authentication server: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		log.Warn().Str("user", conn.User()).Int("status", resp.StatusCode).Msg("Authentication failed")
-		return nil, nil
+		return nil, fmt.Errorf("authentication failed with status code: %d", resp.StatusCode)
 	}
 
 	log.Info().Str("user", conn.User()).Msg("Authentication successful")
