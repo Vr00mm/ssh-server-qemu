@@ -1,0 +1,6 @@
+ssh_port: 2222
+listen_address: "0.0.0.0"
+host_priv_key: "/etc/ssh/ssh_host_rsa_key"
+authn_url: "http://localhost:8080/auth/login"
+log_level: "info"
+log_format: "json"
